@@ -4,6 +4,14 @@ import jp.ac.it_college.std.s14007.Adapter.Print;
 import jp.ac.it_college.std.s14007.Adapter.Print2;
 import jp.ac.it_college.std.s14007.Adapter.PrintBanner;
 import jp.ac.it_college.std.s14007.Adapter.PrintBanner2;
+import jp.ac.it_college.std.s14007.pdp.factory.framework.Factory;
+import jp.ac.it_college.std.s14007.pdp.factory.framework.Product;
+import jp.ac.it_college.std.s14007.pdp.factory.idcard.IDCard;
+import jp.ac.it_college.std.s14007.pdp.factory.idcard.IDCardFactory;
+import jp.ac.it_college.std.s14007.pdp.prototype.MessageBox;
+import jp.ac.it_college.std.s14007.pdp.prototype.UnderlinePen;
+import jp.ac.it_college.std.s14007.pdp.prototype.framework.Manager;
+import jp.ac.it_college.std.s14007.pdp.singleton.Singleton;
 import sun.plugin2.message.ShowStatusMessage;
 
 import java.util.*;
@@ -12,7 +20,73 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        hashMapTest();
+        prototypeTest();
+    }
+
+    public static void prototypeTest() {
+        Manager manager = new Manager();
+        UnderlinePen upen = new UnderlinePen('~');
+        MessageBox mbox = new MessageBox('*');
+        MessageBox sbox = new MessageBox('/');
+        manager.register("strong message", upen);
+        manager.register("warning box", mbox);
+        manager.register("slash box", sbox);
+
+        jp.ac.it_college.std.s14007.pdp.prototype.framework.Product p1 = manager.create("strong message");
+        p1.use("Hello, world.");
+        jp.ac.it_college.std.s14007.pdp.prototype.framework.Product p2 = manager.create("warning box");
+        p2.use("Hello, world");
+        jp.ac.it_college.std.s14007.pdp.prototype.framework.Product p3 = manager.create("slash box");
+        p3.use("Hello, world");
+    }
+
+    public static void singletonTest() {
+        System.out.println("Start");
+        Singleton obj1 = Singleton.getInstance();
+        Singleton obj2 = Singleton.getInstance();
+
+        if (obj1 == obj2) {
+            System.out.println("obj1とobj2は同じインスタンスです。");
+        } else {
+            System.out.println("obj1とobj2は同じインスタンスではありません");
+        }
+        System.out.println("End");
+    }
+
+    public static void factoryTest() {
+        Factory factory = new IDCardFactory();
+        Product card1 = factory.create("結城浩");
+        Product card2 = factory.create("とむら");
+        Product card3 = factory.create("佐藤花子");
+
+        card1.use();
+        card2.use();
+        card3.use();
+
+
+    }
+
+    public static void tenplateTest () {
+        AbstractDisplay d1 = new CharDisplay('H');
+        AbstractDisplay d2 = new StringDisplay("Hello, world");
+        AbstractDisplay d3 = new StringDisplay("こんにちは。");
+        d1.display();
+        d2.display();
+        d3.display();
+    }
+
+    public static void practice1_1() {
+        BookShelf bookShelf = new BookShelf(4);
+        bookShelf.appendBook(new Book("Around the Worl in 80 Days"));
+        bookShelf.appendBook(new Book("Bible"));
+        bookShelf.appendBook(new Book("Cinderella"));
+        bookShelf.appendBook(new Book("Daddy-Long-Legs"));
+        Iterator it = bookShelf.iterator();
+
+        while (it.hasNext()) {
+            Book book = (Book)it.next();
+            System.out.println(book.getName());
+        }
     }
 
     public static void iteratorMain() {
