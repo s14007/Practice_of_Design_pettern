@@ -1,7 +1,5 @@
 package jp.ac.it_college.std.s14007.pdp.prototype.framework;
 
-import jp.ac.it_college.std.s14007.pdp.prototype.framework.Product;
-
 import java.util.HashMap;
 
 /**

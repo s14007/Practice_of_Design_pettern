@@ -4,23 +4,138 @@ import jp.ac.it_college.std.s14007.Adapter.Print;
 import jp.ac.it_college.std.s14007.Adapter.Print2;
 import jp.ac.it_college.std.s14007.Adapter.PrintBanner;
 import jp.ac.it_college.std.s14007.Adapter.PrintBanner2;
+import jp.ac.it_college.std.s14007.pdp.abstractFactory.factory.Link;
+import jp.ac.it_college.std.s14007.pdp.bridge.CountDisplay;
+import jp.ac.it_college.std.s14007.pdp.bridge.Display;
+import jp.ac.it_college.std.s14007.pdp.bridge.StringDisplayImpl;
 import jp.ac.it_college.std.s14007.pdp.factory.framework.Factory;
 import jp.ac.it_college.std.s14007.pdp.factory.framework.Product;
-import jp.ac.it_college.std.s14007.pdp.factory.idcard.IDCard;
 import jp.ac.it_college.std.s14007.pdp.factory.idcard.IDCardFactory;
 import jp.ac.it_college.std.s14007.pdp.prototype.MessageBox;
 import jp.ac.it_college.std.s14007.pdp.prototype.UnderlinePen;
 import jp.ac.it_college.std.s14007.pdp.prototype.framework.Manager;
 import jp.ac.it_college.std.s14007.pdp.singleton.Singleton;
-import sun.plugin2.message.ShowStatusMessage;
+import jp.ac.it_college.std.s14007.pdp.abstractFactory.factory.*;
+import jp.ac.it_college.std.s14007.pdp.Book;
+import jp.ac.it_college.std.s14007.pdp.strategy.Hand;
+import jp.ac.it_college.std.s14007.pdp.strategy.Player;
+import jp.ac.it_college.std.s14007.pdp.strategy.ProbStrategy;
+import jp.ac.it_college.std.s14007.pdp.strategy.WinnerStrategy;
 
 import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) {
-	// write your code here
-        prototypeTest();
+        if (args.length != 2) {
+            System.out.println("Usage: java Main randomseed1 randomseed2");
+            System.out.println("Example: java Main 314 15");
+            System.exit(0);
+        }
+
+        int seed1 = Integer.parseInt(args[0]);
+        int seed2 = Integer.parseInt(args[1]);
+        Player player1 = new Player("Taro", new WinnerStrategy(seed1));
+        Player player2 = new Player("Hana", new ProbStrategy(seed2));
+
+        for (int i = 0; i < 10000; i++) {
+            Hand nextHand1 = player1.nextHand();
+            Hand nextHand2 = player2.nextHand();
+            if (nextHand1.isStrongerThan(nextHand2)) {
+                System.out.println("Winner:" + player1);
+                player1.win();
+                player2.lose();
+            } else if (nextHand2.isStrongerThan(nextHand1)) {
+                System.out.println("Winner:" + player2);
+                player1.lose();
+                player2.win();
+            } else {
+                System.out.println("Even...");
+                player1.even();
+                player2.even();
+            }
+        }
+        System.out.println("Total result:");
+        System.out.println(player1.toString());
+        System.out.println(player2.toString());
+    }
+
+    public static void strategyTest(String[] args) {
+        if (args.length != 2) {
+            System.out.println("Usage: java Main randomseed1 randomseed2");
+            System.out.println("Example: java Main 314 15");
+            System.exit(0);
+        }
+
+        int seed1 = Integer.parseInt(args[0]);
+        int seed2 = Integer.parseInt(args[1]);
+        Player player1 = new Player("Taro", new WinnerStrategy(seed1));
+        Player player2 = new Player("Hana", new ProbStrategy(seed2));
+
+        for (int i = 0; i < 10000; i++) {
+            Hand nextHand1 = player1.nextHand();
+            Hand nextHand2 = player2.nextHand();
+            if (nextHand1.isStrongerThan(nextHand2)) {
+                System.out.println("Winner:" + player1);
+                player1.win();
+                player2.lose();
+            } else if (nextHand2.isStrongerThan(nextHand1)) {
+                System.out.println("Winner:" + player2);
+                player1.lose();
+                player2.win();
+            } else {
+                System.out.println("Even...");
+                player1.even();
+                player2.even();
+            }
+        }
+        System.out.println("Total result:");
+        System.out.println(player1.toString());
+        System.out.println(player2.toString());
+    }
+
+    public static void bridgeTest() {
+        Display d1 = new Display(new StringDisplayImpl("Hello, Japan."));
+        Display d2 = new CountDisplay(new StringDisplayImpl("Hello, World."));
+        CountDisplay d3 = new CountDisplay(new StringDisplayImpl("Hello,Unicerse"));
+        d1.display();
+        d2.display();
+        d3.display();
+        d3.multiDisplay(5);
+    }
+
+    public static void  abstractFactoryTest(String[] args) {
+        if (args.length != 1) {
+            System.out.println("Usage: java Main class.name.of.ConcreteFactory");
+            System.out.println("Example 1: java Main listfactory.ListFactory");
+            System.out.println("Example 2: java Main tablefactory.TableFactory");
+            System.exit(0);
+        }
+        jp.ac.it_college.std.s14007.pdp.abstractFactory.factory.Factory factory = jp.ac.it_college.std.s14007.pdp.abstractFactory.factory.Factory.getFactory(args[0]);
+
+        Link asahi = factory.createLink("朝日新聞", "http://www.asahi.com/");
+        Link yomiuri = factory.createLink("読売新聞", "http://www.yomiuri.co.jp/");
+        Link us_yahoo = factory.createLink("Yahoo!", "http://www.yahoo.com/");
+        Link jp_yahoo = factory.createLink("Yahoo!Japan", "http://www.yahoo.co.jp/");
+        Link excite = factory.createLink("Excite", "http://www.excete.com/");
+        Link google = factory.createLink("Google", "http://www.google.com/");
+
+        Tray traynews =  factory.createTray("新聞");
+        traynews.add(asahi);
+        traynews.add(yomiuri);
+
+        Tray trayyahoo = factory.createTray("Yahoo!");
+        trayyahoo.add(us_yahoo);
+        traynews.add((jp_yahoo));
+
+        Tray traysearch = factory.createTray("サーチエンジン");
+        traysearch.add(trayyahoo);
+        traysearch.add(excite);
+        traysearch.add(google);
+
+        Page page = factory.createPage("LinkPage", "結城　浩");
+        page.add(traynews);
+        page.add(traysearch);
+        page.output();
     }
 
     public static void prototypeTest() {
@@ -74,8 +189,8 @@ public class Main {
         d2.display();
         d3.display();
     }
-
-    public static void practice1_1() {
+    /*
+        public static void practice1_1() {
         BookShelf bookShelf = new BookShelf(4);
         bookShelf.appendBook(new Book("Around the Worl in 80 Days"));
         bookShelf.appendBook(new Book("Bible"));
@@ -88,7 +203,7 @@ public class Main {
             System.out.println(book.getName());
         }
     }
-
+    */
     public static void iteratorMain() {
         BookShelf bookShelf = new BookShelf(4);
         bookShelf.appendBook(new Book("Around the Worl in 80 Days"));

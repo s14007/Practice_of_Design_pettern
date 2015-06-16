@@ -13,5 +13,8 @@
     <orderEntry type="module" module-name="factory" />
     <orderEntry type="module" module-name="singleton" />
     <orderEntry type="module" module-name="prototype" />
+    <orderEntry type="module" module-name="bridge" />
+    <orderEntry type="module" module-name="abstractFactory" />
+    <orderEntry type="module" module-name="strategy" />
   </component>
 </module>
