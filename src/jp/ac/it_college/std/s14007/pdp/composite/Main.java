@@ -24,7 +24,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        jp.ac.it_college.std.s14007.pdp.interpreter.Main.main(args);
+        jp.ac.it_college.std.s14007.pdp.appendix.Main.main(args);
     }
 
     public static void compositeTest() {
