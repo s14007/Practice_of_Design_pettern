@@ -16,5 +16,18 @@
     <orderEntry type="module" module-name="bridge" />
     <orderEntry type="module" module-name="abstractFactory" />
     <orderEntry type="module" module-name="strategy" />
+    <orderEntry type="module" module-name="responsibility" />
+    <orderEntry type="module" module-name="facade" />
+    <orderEntry type="module" module-name="composite" />
+    <orderEntry type="module" module-name="mediator" />
+    <orderEntry type="module" module-name="decorator" />
+    <orderEntry type="module" module-name="observer" />
+    <orderEntry type="module" module-name="memento" />
+    <orderEntry type="module" module-name="visitor" />
+    <orderEntry type="module" module-name="state" />
+    <orderEntry type="module" module-name="flyweight" />
+    <orderEntry type="module" module-name="proxy" />
+    <orderEntry type="module" module-name="command" />
+    <orderEntry type="module" module-name="interpreter" />
   </component>
 </module>
